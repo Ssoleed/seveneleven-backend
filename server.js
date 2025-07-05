@@ -45,7 +45,7 @@ app.get('/booking', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/booking.html'));
 });
 app.get('/confirm.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/confirm.html'));
+  res.redirect('https://my711.netlify.app/confirm.html');
 });
 
 // Booking POST route
