@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book a Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Book Your Game</h1>
+    <nav>
+      <a href="index.html"><button>Home</button></a>
+      <a href="services.html"><button>Services</button></a>
+      <a href="booking.html"><button>Book</button></a>
+    </nav>
+  </header>
+
+  <main>
+    <form action="https://seveneleven-backend.onrender.com/booking" method="POST" onsubmit="return validateTimes()">
+      <label>Name:</label>
+      <input type="text" name="name" required>
+
+      <label>Phone:</label>
+      <input type="text" name="phone" required>
+
+      <label>Date:</label>
+      <input type="date" name="date" id="date" required>
+
+      <label>Start Time:</label>
+      <select name="startTime" id="startTime" required></select>
+
+      <label>End Time:</label>
+      <select name="endTime" id="endTime" required></select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <script>
+    const startTimeSelect = document.getElementById('startTime');
+    const endTimeSelect = document.getElementById('endTime');
+    const dateInput = document.getElementById('date');
+
+    function populateTimeSelect(select) {
+      select.innerHTML = '';
+      for (let hour = 8; hour <= 22; hour++) {
+        const time = hour.toString().padStart(2, '0') + ':00';
+        const option = document.createElement('option');
+        option.value = time;
+        option.textContent = time;
+        select.appendChild(option);
+      }
+    }
+
+    function fetchBookedTimes(date) {
+      fetch(`https://seveneleven-backend.onrender.com/api/booked-times?date=${date}`)
+        .then(res => res.json())
+        .then(bookings => {
+          const bookedHours = [];
+
+          bookings.forEach(({ start, end }) => {
+            const startHour = parseInt(start);
+            const endHour = parseInt(end);
+            for (let i = startHour; i < endHour; i++) {
+              bookedHours.push(i);
+            }
+          });
+
+          populateTimeSelect(startTimeSelect);
+          populateTimeSelect(endTimeSelect);
+
+          [startTimeSelect, endTimeSelect].forEach(select => {
+            Array.from(select.options).forEach(opt => {
+              if (bookedHours.includes(parseInt(opt.value))) {
+                opt.disabled = true;
+                opt.classList.add('disabled-option');
+              }
+            });
+          });
+        })
+        .catch(err => console.error('Error fetching times:', err));
+    }
+
+    function validateTimes() {
+      const start = parseInt(startTimeSelect.value.split(':')[0]);
+      const end = parseInt(endTimeSelect.value.split(':')[0]);
+
+      if (!start || !end || isNaN(start) || isNaN(end)) {
+        alert("Please select valid time slots.");
+        return false;
+      }
+
+      if (end <= start) {
+        alert('End time must be after start time.');
+        return false;
+      }
+
+      return true;
+    }
+
+    // Initialize
+    populateTimeSelect(startTimeSelect);
+    populateTimeSelect(endTimeSelect);
+    dateInput.addEventListener('change', () => {
+      if (dateInput.value) fetchBookedTimes(dateInput.value);
+    });
+  </script>
+</body>
+</html>

@@ -17,25 +17,21 @@
   </header>
 
   <main>
-    <form action="/booking" method="POST" onsubmit="return validateTimes()">
+    <form action="https://seveneleven-backend.onrender.com/booking" method="POST" onsubmit="return validateTimes()">
       <label>Name:</label>
-      <input type="text" name="name" required />
+      <input type="text" name="name" required>
 
       <label>Phone:</label>
-      <input type="text" name="phone" required />
+      <input type="text" name="phone" required>
 
       <label>Date:</label>
-      <input type="date" name="date" id="date" required />
+      <input type="date" name="date" id="date" required>
 
       <label>Start Time:</label>
-      <select name="startTime" id="startTime" required>
-        <option value="">-- Select Start Time --</option>
-      </select>
+      <select name="startTime" id="startTime" required></select>
 
       <label>End Time:</label>
-      <select name="endTime" id="endTime" required>
-        <option value="">-- Select End Time --</option>
-      </select>
+      <select name="endTime" id="endTime" required></select>
 
       <button type="submit">Submit</button>
     </form>
@@ -46,9 +42,8 @@
     const endTimeSelect = document.getElementById('endTime');
     const dateInput = document.getElementById('date');
 
-    // Populate time options from 08:00 to 22:00
     function populateTimeSelect(select) {
-      select.innerHTML = '<option value="">-- Select --</option>';
+      select.innerHTML = '';
       for (let hour = 8; hour <= 22; hour++) {
         const time = hour.toString().padStart(2, '0') + ':00';
         const option = document.createElement('option');
@@ -59,7 +54,7 @@
     }
 
     function fetchBookedTimes(date) {
-      fetch(`/api/booked-times?date=${date}`)
+      fetch(`https://seveneleven-backend.onrender.com/api/booked-times?date=${date}`)
         .then(res => res.json())
         .then(bookings => {
           const bookedHours = [];
@@ -72,24 +67,19 @@
             }
           });
 
-          // Reset and repopulate selects
           populateTimeSelect(startTimeSelect);
           populateTimeSelect(endTimeSelect);
 
-          Array.from(startTimeSelect.options).forEach(opt => {
-            if (bookedHours.includes(parseInt(opt.value))) {
-              opt.disabled = true;
-              opt.classList.add('disabled-option');
-            }
+          [startTimeSelect, endTimeSelect].forEach(select => {
+            Array.from(select.options).forEach(opt => {
+              if (bookedHours.includes(parseInt(opt.value))) {
+                opt.disabled = true;
+                opt.classList.add('disabled-option');
+              }
+            });
           });
-
-          Array.from(endTimeSelect.options).forEach(opt => {
-            if (bookedHours.includes(parseInt(opt.value))) {
-              opt.disabled = true;
-              opt.classList.add('disabled-option');
-            }
-          });
-        });
+        })
+        .catch(err => console.error('Error fetching times:', err));
     }
 
     function validateTimes() {
@@ -109,14 +99,11 @@
       return true;
     }
 
-    // On load
+    // Initialize
     populateTimeSelect(startTimeSelect);
     populateTimeSelect(endTimeSelect);
-
     dateInput.addEventListener('change', () => {
-      if (dateInput.value) {
-        fetchBookedTimes(dateInput.value);
-      }
+      if (dateInput.value) fetchBookedTimes(dateInput.value);
     });
   </script>
 </body>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Services</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #0a3d62;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    nav button {
+      margin: 0 5px;
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .service {
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+      transition: 0.3s ease;
+    }
+    .service:hover {
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .service h2 {
+      margin-top: 0;
+      color: #0a3d62;
+    }
+    .service a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Our Services</h1>
+    <nav>
+      <a href="index.html"><button>Home</button></a>
+      <a href="services.html"><button>Services</button></a>
+      <a href="booking.html"><button>Book</button></a>
+    </nav>
+  </header>
+
+  <div class="services">
+    <div class="service">
+      <a href="5-a-side.html">
+        <h2>5-a-Side Football</h2>
+        <p>Book our artificial pitch by the hour and enjoy quality matches with your team.</p>
+      </a>
+    </div>
+    <div class="service">
+      <a href="suya-spot.html">
+        <h2>Suya Spot</h2>
+        <p>Delicious suya and grilled meats served hot and fresh.</p>
+      </a>
+    </div>
+    <div class="service">
+      <a href="restaurant.html">
+        <h2>Restaurant</h2>
+        <p>Enjoy a wide variety of meals and snacks at our modern restaurant.</p>
+      </a>
+    </div>
+    <div class="service">
+      <a href="gymnasium.html">
+        <h2>Gymnasium</h2>
+        <p>Train with top-notch equipment in a clean, accessible environment.</p>
+      </a>
+    </div>
+    <div class="service">
+      <a href="pharmacy.html">
+        <h2>Pharmacy</h2>
+        <p>Access our top-quality medical products at affordable prices.</p>
+      </a>
+    </div>
+    <div class="service">
+      <a href="barbing-salon.html">
+        <h2>Barbing Salon</h2>
+        <p>We offer professional haircut services and trendy styles.</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
