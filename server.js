@@ -80,7 +80,7 @@ app.post('/booking', (req, res) => {
     VALUES (?, ?, ?, ?, ?)
   `).run(name, phone, date, startTime, endTime);
 
-  res.sendFile(path.join(__dirname, 'public/confirm.html'));
+  res.redirect('https://my7eleven.netlify.app/confirm.html');
 });
 
 // Admin login
